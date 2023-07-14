@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testando Puppeteer JS</title>
+</head>
+
+<body>
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .row {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        li img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+    <div class="container"></div>
+    <script>
+        (async () => {
+            // Abrindo o arquivo JSON
+            const response = await fetch('./neox.json');
+            const data = await response.json();
+
+            // Formatando os dados para enviar ao front
+            let resultList = '';
+            for (let i = 0; i < data.length; i += 4) {
+                const rowImages = data.slice(i, i + 4);
+                const row = rowImages.map(({ src }) => `<li><img src="${src}"></li>`).join('');
+                resultList += `<ul class="row">${row}</ul>`;
+            }
+
+            // Colocando no front
+            document.querySelector('.container').innerHTML = resultList;
+        })();
+    </script>
+</body>
+
+</html>
